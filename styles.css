@@ -11,6 +11,19 @@
   --radius: 2px;
 }
 
+/* Nikosh Bangla webfont — add font files to /fonts/ (woff2, woff, ttf)
+   Limit Nikosh to Bengali unicode range so Latin (English) uses Inter (sans-serif). */
+@font-face {
+  font-family: 'NikoshBangla';
+  src: url('fonts/NikoshBangla.woff2') format('woff2'),
+       url('fonts/NikoshBangla.woff') format('woff'),
+       url('fonts/NikoshBangla.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0980-09FF; /* Bengali */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,7 +37,8 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--paper);
-  font-family: Inter, "Noto Sans Bengali", "Hind Siliguri", "Segoe UI", sans-serif;
+  /* Use Inter (sans-serif) for Latin; Nikosh will apply automatically for Bengali glyphs */
+  font-family: Inter, 'NikoshBangla', "Noto Sans Bengali", "Hind Siliguri", "Segoe UI", sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
 }
@@ -105,6 +119,9 @@ button {
 /* reuseable css */
 .margin-auto {
   margin: auto !important;
+}
+.font-normal{
+  font-weight: normal !important;
 }
 
 .brand img {
@@ -312,6 +329,7 @@ h2 em {
   align-items: center;
   gap: 9px;
   color: #fff;
+  font-size: 10px; /* slightly smaller eyebrow in hero */
 }
 
 .pulse-dot {
@@ -325,9 +343,11 @@ h2 em {
 .hero h1 {
   max-width: 690px;
   margin: 0;
-  font-size: clamp(3rem, 5.5vw, 5.65rem);
+  /* slightly reduce headline size */
+  font-size: clamp(3rem, 5.2vw, 4.8rem);
   line-height: .99;
-  letter-spacing: -.072em;
+  /* reduce the negative tracking so Bengali and Latin don't collide */
+  letter-spacing: -.02em;
   font-weight: 780;
 }
 
@@ -342,6 +362,13 @@ h2 em {
   font-size: .64em;
   line-height: 1.12;
 }
+
+/* avoid tight spacing on inline children (Bengali/English mix) */
+.hero h1 em,
+.hero h1 span {
+  letter-spacing: 0;
+}
+
 
 .hero-description {
   max-width: 640px;
